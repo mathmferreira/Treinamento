@@ -1,9 +1,9 @@
 package br.com.treinamento.ultracar.Treinamento.entidades;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -38,11 +38,13 @@ public class Usuario implements Serializable {
 	@NotBlank
 	private String login;
 	
-	@Column(name = "DS_SENHA", length = 60)
+	@Column(name = "DS_SENHA", length = 45)
+	@Size(max = 45)
 	@NotBlank
 	private String senha;
 	
-	@Column(name = "DS_EMAIL", length = 100)
+	@Column(name = "DS_EMAIL", length = 45)
+	@Size(min = 3, max = 45)
 	@NotBlank
 	private String email;
 	
@@ -59,7 +61,10 @@ public class Usuario implements Serializable {
 	private Situacao situacao;
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "usuario")
-	private List<PermissaoAcesso> permissoesAcesso = new ArrayList<>();
+	private Set<PermissaoAcesso> permissoesAcesso = new LinkedHashSet<>();
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "usuario")
+	private Set<GrupoAcesso> gruposAcesso = new LinkedHashSet<>();
 	
 	@Transient
 	private String token;
@@ -120,12 +125,20 @@ public class Usuario implements Serializable {
 		this.situacao = situacao;
 	}
 
-	public List<PermissaoAcesso> getPermissoesAcesso() {
+	public Set<PermissaoAcesso> getPermissoesAcesso() {
 		return permissoesAcesso;
 	}
 
-	public void setPermissoesAcesso(List<PermissaoAcesso> permissoesAcesso) {
+	public void setPermissoesAcesso(Set<PermissaoAcesso> permissoesAcesso) {
 		this.permissoesAcesso = permissoesAcesso;
+	}
+
+	public Set<GrupoAcesso> getGruposAcesso() {
+		return gruposAcesso;
+	}
+
+	public void setGruposAcesso(Set<GrupoAcesso> gruposAcesso) {
+		this.gruposAcesso = gruposAcesso;
 	}
 
 	public String getToken() {
