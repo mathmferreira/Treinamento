@@ -10,9 +10,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
@@ -22,33 +22,31 @@ public class Menu implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "menu_sequence")
+	@SequenceGenerator(name = "menu_sequence", sequenceName = "menu_id_sequence", allocationSize = 1)
 	@Column(name = "ID_MENU", nullable = false)
 	private Long id;
 	
 	@Column(name = "DS_DESCRICAO", length = 45, nullable = false)
-	@Size(max = 45)
+	@Size(min = 5, max = 45)
 	@NotBlank
 	private String descricao;
 	
 	@Column(name = "DS_URL", length = 150, nullable = false)
-	@Size(min = 4, max = 150)
+	@Size(min = 5, max = 150)
 	@NotBlank
 	private String url;
 	
 	@Column(name = "DS_ICONE", length = 45, nullable = false)
-	@Size(max = 45)
 	@NotBlank
 	private String icone;
 	
 	@Column(name = "DS_INDICE", length = 45, nullable = false)
-	@Size(max = 45)
 	@NotBlank
 	private String indice;
 	
 	@JoinColumn(name = "ID_PERMISSAO_ACESSO", nullable = false)
 	@ManyToOne(fetch = FetchType.LAZY)
-	@NotNull
 	private PermissaoAcesso permissaoAcesso;
 	
 	@JoinColumn(name = "ID_MENU_PAI", referencedColumnName = "ID_MENU")

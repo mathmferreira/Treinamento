@@ -10,9 +10,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
@@ -22,18 +22,18 @@ public class Cidade implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cidade_sequence")
+	@SequenceGenerator(name = "cidade_sequence", sequenceName = "cidade_id_sequence", allocationSize = 1)
 	@Column(name = "ID_CIDADE", nullable = false)
 	private Long id;
 	
 	@Column(name = "DS_NOME", length = 38, nullable = false)
-	@Size(max = 38)
+	@Size(min = 5, max = 38)
 	@NotBlank
 	private String nome;
 	
 	@JoinColumn(name = "ID_ESTADO", nullable = false)
 	@ManyToOne(fetch = FetchType.LAZY)
-	@NotNull
 	private Estado estado;
 
 	public Long getId() {

@@ -10,8 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "TB_PONTO")
@@ -20,13 +20,13 @@ public class Ponto implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ponto_sequence")
+	@SequenceGenerator(name = "ponto_sequence", sequenceName = "ponto_id_sequence", allocationSize = 1)
 	@Column(name = "ID_PONTO", nullable = false)
 	private Long id;
 	
 	@JoinColumn(name = "ID_ENDERECO", nullable = false)
 	@ManyToOne(fetch = FetchType.LAZY)
-	@NotNull
 	private Endereco endereco;
 
 	public Long getId() {

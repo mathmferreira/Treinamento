@@ -7,9 +7,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.Max;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "TB_ESTADO")
@@ -18,12 +19,13 @@ public class Estado implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "estado_sequence")
+	@SequenceGenerator(name = "estado_sequence", sequenceName = "estado_id_sequence", allocationSize = 1)
 	@Column(name = "ID_ESTADO", nullable = false)
 	private Long id;
 	
 	@Column(name = "DS_SIGLA", length = 2, nullable = false)
-	@Size(max = 2)
+	@Max(2)
 	@NotBlank
 	private String sigla;
 

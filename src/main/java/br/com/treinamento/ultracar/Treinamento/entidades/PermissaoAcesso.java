@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -24,16 +25,17 @@ public class PermissaoAcesso implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "permissao_acesso_sequence")
+	@SequenceGenerator(name = "permissao_acesso_sequence", sequenceName = "permissao_acesso_id_sequence", allocationSize = 1)
 	@Column(name = "ID_PERMISSAO_ACESSO", nullable = false)
 	private Long id;
 	
-	@Column(name = "EN_SITUACAO", nullable = false)
-	@NotNull
+	@Column(name = "EN_SITUACAO", length = 20, nullable = false)
 	@Enumerated(EnumType.STRING)
+	@NotNull
 	private Situacao situacao;
 	
-	@JoinColumn(name = "ID_USUARIO")
+	@JoinColumn(name = "ID_USUARIO", nullable = false)
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Usuario usuario;
 

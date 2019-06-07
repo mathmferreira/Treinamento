@@ -2,7 +2,7 @@ package br.com.treinamento.ultracar.Treinamento.entidades;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.LinkedHashSet;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -14,6 +14,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
@@ -29,17 +30,18 @@ public class Usuario implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "usuario_sequence")
+	@SequenceGenerator(name = "usuario_sequence", sequenceName = "usuario_id_sequence", allocationSize = 1)
 	@Column(name = "ID_USUARIO", nullable = false)
 	private Long id;
 	
-	@Column(name = "DS_LOGIN", length = 45)
+	@Column(name = "DS_LOGIN", length = 45, nullable = false)
 	@Size(min = 5, max = 45)
 	@NotBlank
 	private String login;
 	
-	@Column(name = "DS_SENHA", length = 45)
-	@Size(max = 45)
+	@Column(name = "DS_SENHA", length = 45, nullable = false)
+	@Size(min = 5, max = 45)
 	@NotBlank
 	private String senha;
 	
@@ -48,23 +50,24 @@ public class Usuario implements Serializable {
 	@NotBlank
 	private String email;
 	
-	@Column(name = "DT_ULTIMO_ACESSO")
+	@Column(name = "DT_ULTIMO_ACESSO", nullable = false)
+	@NotNull
 	private Date ultimoAcesso;
 
 	@Column(name = "LG_ADMINISTRADOR", nullable = false)
 	@NotNull
 	private boolean administrador;
 	
-	@Column(name = "EN_SITUACAO", nullable = false)
-	@NotNull
+	@Column(name = "EN_SITUACAO", length = 20, nullable = false)
 	@Enumerated(EnumType.STRING)
+	@NotNull
 	private Situacao situacao;
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "usuario")
-	private Set<PermissaoAcesso> permissoesAcesso = new LinkedHashSet<>();
+	private Set<PermissaoAcesso> permissoesAcesso = new HashSet<>();
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "usuario")
-	private Set<GrupoAcesso> gruposAcesso = new LinkedHashSet<>();
+	private Set<GrupoAcesso> gruposAcesso = new HashSet<>();
 	
 	@Transient
 	private String token;

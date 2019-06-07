@@ -4,16 +4,21 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import br.com.treinamento.ultracar.Treinamento.entidades.enumeradores.TipoLocal;
 
 @Entity
 @Table(name = "ID_ENDERECO")
@@ -22,31 +27,29 @@ public class Endereco implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "endereco_sequence")
+	@SequenceGenerator(name = "endereco_sequence", sequenceName = "endereco_id_sequence", allocationSize = 1)
 	@Column(name = "ID_ENDERECO", nullable = false)
 	private Long id;
 	
 	@JoinColumn(name = "ID_BAIRRO", nullable = false)
 	@ManyToOne(fetch = FetchType.LAZY)
-	@NotNull
 	private Bairro bairro;
 	
-	@Column(name = "DS_TIPO_LOCAL", length = 15, nullable = false)
-	@Size(max = 15)
-	@NotBlank
-	private String tipoLocal;
+	@Column(name = "EN_TIPO_LOCAL", length = 15, nullable = false)
+	@Enumerated(EnumType.STRING)
+	@NotNull
+	private TipoLocal tipoLocal;
 	
 	@Column(name = "DS_LOGRADOURO", length = 128, nullable = false)
-	@Size(max = 128)
+	@Size(min = 5, max = 128)
 	@NotBlank
 	private String logradouro;
 	
-	@Column(name = "NR_NUMERO", nullable = false)
-	@NotNull
+	@Column(name = "NM_NUMERO", nullable = false)
 	private Integer numero;
 	
 	@Column(name = "DS_COMPLEMENTO", length = 255)
-	@Size(max = 255)
 	private String complemento;
 
 	public Long getId() {
@@ -65,11 +68,11 @@ public class Endereco implements Serializable {
 		this.bairro = bairro;
 	}
 
-	public String getTipoLocal() {
+	public TipoLocal getTipoLocal() {
 		return tipoLocal;
 	}
 
-	public void setTipoLocal(String tipoLocal) {
+	public void setTipoLocal(TipoLocal tipoLocal) {
 		this.tipoLocal = tipoLocal;
 	}
 
