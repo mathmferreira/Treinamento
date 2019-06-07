@@ -1,14 +1,18 @@
 package br.com.treinamento.ultracar.Treinamento.entidades;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
@@ -29,15 +33,18 @@ public class Operacao implements Serializable {
 	@Column(name = "ID_OPERACAO", nullable = false)
 	private Long id;
 	
+	@NotBlank
 	@Column(name = "DS_DESCRICAO", length = 45, nullable = false)
 	@Size(max = 45)
-	@NotBlank
 	private String descricao;
 	
-	@Column(name = "EN_OPERACAO", length = 10, nullable = false)
-	@Enumerated(EnumType.STRING)
 	@NotNull
-	private Crud operacao;
+	@Column(name = "EN_TIPO_OPERACAO", length = 10, nullable = false)
+	@Enumerated(EnumType.STRING)
+	private Crud tipoOperacao;
+	
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "operacoes")
+	private Set<PermissaoAcesso> permissoesAcesso = new HashSet<>();
 
 	public Long getId() {
 		return id;
@@ -55,12 +62,12 @@ public class Operacao implements Serializable {
 		this.descricao = descricao;
 	}
 
-	public Crud getOperacao() {
-		return operacao;
+	public Crud getTipoOperacao() {
+		return tipoOperacao;
 	}
 
-	public void setOperacao(Crud operacao) {
-		this.operacao = operacao;
+	public void setTipoOperacao(Crud tipoOperacao) {
+		this.tipoOperacao = tipoOperacao;
 	}
 	
 }

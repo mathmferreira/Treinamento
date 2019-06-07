@@ -14,7 +14,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -32,20 +31,21 @@ public class Endereco implements Serializable {
 	@Column(name = "ID_ENDERECO", nullable = false)
 	private Long id;
 	
+	@NotNull
 	@JoinColumn(name = "ID_BAIRRO", nullable = false)
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Bairro bairro;
 	
+	@NotNull
 	@Column(name = "EN_TIPO_LOCAL", length = 15, nullable = false)
 	@Enumerated(EnumType.STRING)
-	@NotNull
 	private TipoLocal tipoLocal;
 	
 	@Column(name = "DS_LOGRADOURO", length = 128, nullable = false)
 	@Size(min = 5, max = 128)
-	@NotBlank
 	private String logradouro;
-	
+
+	@NotNull
 	@Column(name = "NM_NUMERO", nullable = false)
 	private Integer numero;
 	

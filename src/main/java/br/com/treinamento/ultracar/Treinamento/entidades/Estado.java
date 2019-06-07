@@ -24,9 +24,9 @@ public class Estado implements Serializable {
 	@Column(name = "ID_ESTADO", nullable = false)
 	private Long id;
 	
+	@NotBlank
 	@Column(name = "DS_SIGLA", length = 2, nullable = false)
 	@Max(2)
-	@NotBlank
 	private String sigla;
 
 	public Long getId() {

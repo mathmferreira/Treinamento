@@ -1,16 +1,22 @@
 package br.com.treinamento.ultracar.Treinamento.entidades;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -30,14 +36,26 @@ public class PermissaoAcesso implements Serializable {
 	@Column(name = "ID_PERMISSAO_ACESSO", nullable = false)
 	private Long id;
 	
+	@NotNull
 	@Column(name = "EN_SITUACAO", length = 20, nullable = false)
 	@Enumerated(EnumType.STRING)
-	@NotNull
 	private Situacao situacao;
 	
+	@NotNull
 	@JoinColumn(name = "ID_USUARIO", nullable = false)
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Usuario usuario;
+	
+	@NotNull
+	@JoinColumn(name = "ID_GRUPO_ACESSO", nullable = false, foreignKey = @ForeignKey(name = "fk_permissao_acesso_grupo_acesso"))
+	@ManyToOne(fetch = FetchType.LAZY)
+	private GrupoAcesso grupoAcesso;
+	
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinTable(name = "TB_PERMISSAO_ACESSO_OPERACAO",
+		joinColumns = { @JoinColumn(name = "ID_OPERACAO") },
+		inverseJoinColumns = { @JoinColumn(name = "ID_PERMISSAO_ACESSO") })
+	private Set<Operacao> operacoes = new HashSet<>();
 
 	public Long getId() {
 		return id;
@@ -53,6 +71,22 @@ public class PermissaoAcesso implements Serializable {
 
 	public void setSituacao(Situacao situacao) {
 		this.situacao = situacao;
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+
+	public GrupoAcesso getGrupoAcesso() {
+		return grupoAcesso;
+	}
+
+	public void setGrupoAcesso(GrupoAcesso grupoAcesso) {
+		this.grupoAcesso = grupoAcesso;
 	}
 	
 }

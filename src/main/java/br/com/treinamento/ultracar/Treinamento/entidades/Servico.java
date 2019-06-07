@@ -24,14 +24,14 @@ public class Servico implements Serializable {
 	@Column(name = "ID_SERVICO", nullable = false)
 	private Long id;
 	
+	@NotNull
 	@JoinColumn(name = "ID_ENDERECO", nullable = false)
 	@ManyToOne(fetch = FetchType.LAZY)
-	@NotNull
 	private Endereco endereco;
 	
+	@NotNull
 	@JoinColumn(name = "ID_SOLICITANTE", nullable = false)
 	@ManyToOne(fetch = FetchType.LAZY)
-	@NotNull
 	private Solicitante solicitante;
 
 	public Long getId() {

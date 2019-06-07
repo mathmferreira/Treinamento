@@ -35,32 +35,32 @@ public class Usuario implements Serializable {
 	@Column(name = "ID_USUARIO", nullable = false)
 	private Long id;
 	
-	@Column(name = "DS_LOGIN", length = 45, nullable = false)
-	@Size(min = 5, max = 45)
 	@NotBlank
+	@Column(name = "DS_LOGIN", length = 45, nullable = false, unique = true)
+	@Size(min = 5, max = 45)
 	private String login;
 	
+	@NotBlank
 	@Column(name = "DS_SENHA", length = 45, nullable = false)
 	@Size(min = 5, max = 45)
-	@NotBlank
 	private String senha;
 	
+	@NotBlank
 	@Column(name = "DS_EMAIL", length = 45)
 	@Size(min = 3, max = 45)
-	@NotBlank
 	private String email;
 	
-	@Column(name = "DT_ULTIMO_ACESSO", nullable = false)
 	@NotNull
+	@Column(name = "DT_ULTIMO_ACESSO", nullable = false)
 	private Date ultimoAcesso;
 
-	@Column(name = "LG_ADMINISTRADOR", nullable = false)
 	@NotNull
+	@Column(name = "LG_ADMINISTRADOR", nullable = false)
 	private boolean administrador;
 	
+	@NotNull
 	@Column(name = "EN_SITUACAO", length = 20, nullable = false)
 	@Enumerated(EnumType.STRING)
-	@NotNull
 	private Situacao situacao;
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "usuario")

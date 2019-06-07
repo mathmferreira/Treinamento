@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "TB_PERMISSAO_OPERACAO")
@@ -23,10 +24,12 @@ public class PermissaoOperacao implements Serializable {
 	@Column(name = "ID_PERMISSAO_OPERACAO", nullable = false)
 	private Long id;
 	
+	@NotNull
 	@JoinColumn(name = "ID_OPERACAO", nullable = false)
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Operacao operacao;
 	
+	@NotNull
 	@JoinColumn(name = "ID_PERMISSAO_ACESSO", nullable = false)
 	@ManyToOne(fetch = FetchType.LAZY)
 	private PermissaoAcesso permissaoAcesso;

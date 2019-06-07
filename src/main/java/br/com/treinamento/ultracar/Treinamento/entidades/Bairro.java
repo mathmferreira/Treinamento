@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -22,18 +23,19 @@ public class Bairro implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "bairro_sequence")
+	@SequenceGenerator(name = "bairro_sequence", sequenceName = "bairro_id_sequence", allocationSize = 1)
 	@Column(name = "ID_BAIRRO", nullable = false)
 	private Long id;
 	
+	@NotBlank
 	@Column(name = "DS_NOME", length = 100, nullable = false)
 	@Size(max = 100)
-	@NotBlank
 	private String nome;
 	
+	@NotNull
 	@JoinColumn(name = "ID_CIDADE", nullable = false)
 	@ManyToOne(fetch = FetchType.LAZY)
-	@NotNull
 	private Cidade cidade;
 
 	public Long getId() {
