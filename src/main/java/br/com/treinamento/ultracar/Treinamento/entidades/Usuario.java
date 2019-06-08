@@ -35,17 +35,14 @@ public class Usuario implements Serializable {
 	@Column(name = "ID_USUARIO", nullable = false)
 	private Long id;
 	
-	@NotBlank
 	@Column(name = "DS_LOGIN", length = 45, nullable = false, unique = true)
 	@Size(min = 5, max = 45)
 	private String login;
 	
-	@NotBlank
 	@Column(name = "DS_SENHA", length = 45, nullable = false)
 	@Size(min = 5, max = 45)
 	private String senha;
 	
-	@NotBlank
 	@Column(name = "DS_EMAIL", length = 45)
 	@Size(min = 3, max = 45)
 	private String email;

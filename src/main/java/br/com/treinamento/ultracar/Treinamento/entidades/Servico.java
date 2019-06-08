@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -25,12 +26,12 @@ public class Servico implements Serializable {
 	private Long id;
 	
 	@NotNull
-	@JoinColumn(name = "ID_ENDERECO", nullable = false)
+	@JoinColumn(name = "ID_ENDERECO", nullable = false, foreignKey = @ForeignKey(name = "fk_servico_endereco"))
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Endereco endereco;
 	
 	@NotNull
-	@JoinColumn(name = "ID_SOLICITANTE", nullable = false)
+	@JoinColumn(name = "ID_SOLICITANTE", nullable = false, foreignKey = @ForeignKey(name = "fk_servico_solicitante"))
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Solicitante solicitante;
 

@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -32,7 +33,7 @@ public class Endereco implements Serializable {
 	private Long id;
 	
 	@NotNull
-	@JoinColumn(name = "ID_BAIRRO", nullable = false)
+	@JoinColumn(name = "ID_BAIRRO", nullable = false, foreignKey = @ForeignKey(name = "fk_endereco_bairro"))
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Bairro bairro;
 	

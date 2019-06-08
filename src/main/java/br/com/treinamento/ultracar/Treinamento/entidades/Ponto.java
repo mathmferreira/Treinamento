@@ -5,6 +5,7 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -27,7 +28,7 @@ public class Ponto implements Serializable {
 	private Long id;
 	
 	@NotNull
-	@JoinColumn(name = "ID_ENDERECO", nullable = false)
+	@JoinColumn(name = "ID_ENDERECO", nullable = false, foreignKey = @ForeignKey(name = "fk_ponto_endereco"))
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Endereco endereco;
 

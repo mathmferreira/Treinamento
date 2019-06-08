@@ -12,6 +12,9 @@ import br.com.treinamento.ultracar.Treinamento.entidades.Usuario;
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 	
+	@Query("Select u From Usuario u Where u.login = :login")
+	public Usuario findUsuarioByLogin(String login);
+	
 	@Query("Select operacoes From Usuario u "
 		 + "Inner Join u.permissaoAcesso pa "
 		 + "Inner Join pa.operacoes operacoes "

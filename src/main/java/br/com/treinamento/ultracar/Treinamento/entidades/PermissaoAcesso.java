@@ -42,7 +42,7 @@ public class PermissaoAcesso implements Serializable {
 	private Situacao situacao;
 	
 	@NotNull
-	@JoinColumn(name = "ID_USUARIO", nullable = false)
+	@JoinColumn(name = "ID_USUARIO", nullable = false, foreignKey = @ForeignKey(name = "fk_permissao_acesso_usuario"))
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Usuario usuario;
 	
@@ -53,8 +53,8 @@ public class PermissaoAcesso implements Serializable {
 	
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinTable(name = "TB_PERMISSAO_ACESSO_OPERACAO",
-		joinColumns = { @JoinColumn(name = "ID_OPERACAO") },
-		inverseJoinColumns = { @JoinColumn(name = "ID_PERMISSAO_ACESSO") })
+		joinColumns = { @JoinColumn(name = "ID_OPERACAO", foreignKey = @ForeignKey(name = "fk_permissao_acesso_permissao_acesso_operacao")) },
+		inverseJoinColumns = { @JoinColumn(name = "ID_PERMISSAO_ACESSO", foreignKey = @ForeignKey(name = "fk_operacao_permissao_acesso_operacao")) })
 	private Set<Operacao> operacoes = new HashSet<>();
 
 	public Long getId() {
