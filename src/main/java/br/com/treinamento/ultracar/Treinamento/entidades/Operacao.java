@@ -45,6 +45,9 @@ public class Operacao implements Serializable {
 	
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "operacoes")
 	private Set<PermissaoAcesso> permissoesAcesso = new HashSet<>();
+	
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "operacoes")
+	private Set<Servico> servicos = new HashSet<>();
 
 	public Long getId() {
 		return id;

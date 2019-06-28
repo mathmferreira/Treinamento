@@ -37,8 +37,8 @@ public class PermissaoAcesso implements Serializable {
 	private Long id;
 	
 	@NotNull
-	@Column(name = "EN_SITUACAO", length = 20, nullable = false)
 	@Enumerated(EnumType.STRING)
+	@Column(name = "EN_SITUACAO", length = 20, nullable = false)
 	private Situacao situacao;
 	
 	@NotNull
@@ -51,10 +51,10 @@ public class PermissaoAcesso implements Serializable {
 	@ManyToOne(fetch = FetchType.LAZY)
 	private GrupoAcesso grupoAcesso;
 	
+	@JoinTable(name = "TB_PERMISSAO_ACESSO_OPERACAO", joinColumns = { 
+	@JoinColumn(name = "ID_PERMISSAO_ACESSO", foreignKey = @ForeignKey(name = "fk_operacao_permissao_acesso_operacao")) }, inverseJoinColumns = { 
+	@JoinColumn(name = "ID_OPERACAO", foreignKey = @ForeignKey(name = "fk_permissao_acesso_permissao_acesso_operacao")) })
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name = "TB_PERMISSAO_ACESSO_OPERACAO",
-		joinColumns = { @JoinColumn(name = "ID_OPERACAO", foreignKey = @ForeignKey(name = "fk_permissao_acesso_permissao_acesso_operacao")) },
-		inverseJoinColumns = { @JoinColumn(name = "ID_PERMISSAO_ACESSO", foreignKey = @ForeignKey(name = "fk_operacao_permissao_acesso_operacao")) })
 	private Set<Operacao> operacoes = new HashSet<>();
 
 	public Long getId() {
