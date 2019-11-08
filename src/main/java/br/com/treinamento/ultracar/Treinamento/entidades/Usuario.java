@@ -17,6 +17,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -34,16 +35,19 @@ public class Usuario implements Serializable {
 	@Column(name = "ID_USUARIO", nullable = false)
 	private Long id;
 	
-	@Column(name = "DS_LOGIN", length = 45, nullable = false, unique = true)
+	@NotBlank
 	@Size(min = 5, max = 45)
+	@Column(name = "DS_LOGIN", length = 45, nullable = false, unique = true)
 	private String login;
 	
-	@Column(name = "DS_SENHA", length = 45, nullable = false)
+	@NotBlank
 	@Size(min = 5, max = 45)
+	@Column(name = "DS_SENHA", length = 45, nullable = false)
 	private String senha;
 	
-	@Column(name = "DS_EMAIL", length = 45)
+	@NotBlank
 	@Size(min = 3, max = 45)
+	@Column(name = "DS_EMAIL", length = 45)
 	private String email;
 	
 	@NotNull

@@ -12,11 +12,7 @@ import br.com.treinamento.ultracar.Treinamento.entidades.Ponto;
 public interface PontoRespository extends JpaRepository<Ponto, Long> {
 	
 	@Modifying
-	@Query("Delete From Ponto p "
-		 + "Inner Join p.endereco e "
-		 + "Inner Join e.bairro b "
-		 + "Inner Join b.cidade c "
-		 + "Where c = :cidade")
-	public void deleteByCidade(Cidade cidade);
+	@Query("Delete From Ponto p Where p.endereco.bairro.cidade = :cidade")
+	public Integer deleteByCidade(Cidade cidade);
 	
 }

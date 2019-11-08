@@ -17,8 +17,8 @@ public class UsuarioService {
 	@Autowired
 	private UsuarioRepository repositorio;
 	
-	public void salvarUsuario(Usuario usuario) {
-		this.repositorio.save(usuario);
+	public Usuario salvarUsuario(Usuario usuario) {
+		return this.repositorio.save(usuario);
 	}
 	
 	public void deletarUsuario(Usuario usuario) {
@@ -26,7 +26,11 @@ public class UsuarioService {
 	}
 	
 	public void deletarUsuarios(List<Long> ids) {
-		ids.stream().filter(this.repositorio::existsById).parallel().forEach(this.repositorio::deleteById);
+		ids.parallelStream().filter(this.repositorio::existsById).forEach(this.repositorio::deleteById);
+	}
+	
+	public Usuario findOne(Long id) {
+		return this.repositorio.getOne(id);
 	}
 	
 }
