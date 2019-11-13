@@ -15,11 +15,15 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-@Entity
-@Table(name = "TB_SOLICITANTE")
-public class Solicitante implements Serializable {
+import lombok.Builder;
+import lombok.Data;
 
-	private static final long serialVersionUID = 1L;
+@Entity
+@Data
+@Builder
+@Table(name = "TB_SOLICITANTE")
+@SuppressWarnings("serial")
+public class Solicitante implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "solicitante_sequence")
@@ -32,20 +36,4 @@ public class Solicitante implements Serializable {
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Endereco endereco;
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public Endereco getEndereco() {
-		return endereco;
-	}
-
-	public void setEndereco(Endereco endereco) {
-		this.endereco = endereco;
-	}
-	
 }

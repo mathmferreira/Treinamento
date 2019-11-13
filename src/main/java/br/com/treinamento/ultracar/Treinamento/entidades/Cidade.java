@@ -16,11 +16,15 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-@Entity
-@Table(name = "TB_CIDADE")
-public class Cidade implements Serializable {
+import lombok.Builder;
+import lombok.Data;
 
-	private static final long serialVersionUID = 1L;
+@Entity
+@Data
+@Builder
+@Table(name = "TB_CIDADE")
+@SuppressWarnings("serial")
+public class Cidade implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cidade_sequence")
@@ -37,28 +41,4 @@ public class Cidade implements Serializable {
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Estado estado;
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
-	public Estado getEstado() {
-		return estado;
-	}
-
-	public void setEstado(Estado estado) {
-		this.estado = estado;
-	}
-	
 }

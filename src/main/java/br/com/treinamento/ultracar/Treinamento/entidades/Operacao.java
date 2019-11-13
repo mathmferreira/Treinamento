@@ -20,12 +20,15 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import br.com.treinamento.ultracar.Treinamento.entidades.enumeradores.Crud;
+import lombok.Builder;
+import lombok.Data;
 
 @Entity
+@Data
+@Builder
 @Table(name = "TB_OPERACAO")
+@SuppressWarnings("serial")
 public class Operacao implements Serializable {
-
-	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "operacao_sequence")
@@ -43,34 +46,12 @@ public class Operacao implements Serializable {
 	@Enumerated(EnumType.STRING)
 	private Crud tipoOperacao;
 	
+	@Builder.Default
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "operacoes")
 	private Set<PermissaoAcesso> permissoesAcesso = new HashSet<>();
 	
+	@Builder.Default
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "operacoes")
 	private Set<Servico> servicos = new HashSet<>();
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getDescricao() {
-		return descricao;
-	}
-
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
-	}
-
-	public Crud getTipoOperacao() {
-		return tipoOperacao;
-	}
-
-	public void setTipoOperacao(Crud tipoOperacao) {
-		this.tipoOperacao = tipoOperacao;
-	}
-	
 }

@@ -19,12 +19,16 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import lombok.Builder;
+import lombok.Data;
+
 @Entity
+@Data
+@Builder
 @Table(name = "TB_GRUPO_ACESSO")
+@SuppressWarnings("serial")
 public class GrupoAcesso implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "grupo_acesso_sequence")
 	@SequenceGenerator(name = "grupo_acesso_sequence", sequenceName = "grupo_acesso_id_sequence", allocationSize = 1)
@@ -40,39 +44,8 @@ public class GrupoAcesso implements Serializable {
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Usuario usuario;
 	
+	@Builder.Default
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "grupoAcesso")
 	private Set<PermissaoAcesso> permissoesAcesso = new HashSet<>();
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getDescricao() {
-		return descricao;
-	}
-
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
-	}
-
-	public Usuario getUsuario() {
-		return usuario;
-	}
-
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
-	}
-
-	public Set<PermissaoAcesso> getPermissoesAcesso() {
-		return permissoesAcesso;
-	}
-
-	public void setPermissoesAcesso(Set<PermissaoAcesso> permissoesAcesso) {
-		this.permissoesAcesso = permissoesAcesso;
-	}
 
 }

@@ -23,12 +23,15 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import br.com.treinamento.ultracar.Treinamento.entidades.enumeradores.Situacao;
+import lombok.Builder;
+import lombok.Data;
 
 @Entity
+@Data
+@Builder
 @Table(name = "TB_PERMISSAO_ACESSO")
+@SuppressWarnings("serial")
 public class PermissaoAcesso implements Serializable {
-
-	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "permissao_acesso_sequence")
@@ -51,42 +54,11 @@ public class PermissaoAcesso implements Serializable {
 	@ManyToOne(fetch = FetchType.LAZY)
 	private GrupoAcesso grupoAcesso;
 	
+	@Builder.Default
 	@JoinTable(name = "TB_PERMISSAO_ACESSO_OPERACAO", joinColumns = { 
 	@JoinColumn(name = "ID_PERMISSAO_ACESSO", foreignKey = @ForeignKey(name = "fk_operacao_permissao_acesso_operacao")) }, inverseJoinColumns = { 
 	@JoinColumn(name = "ID_OPERACAO", foreignKey = @ForeignKey(name = "fk_permissao_acesso_permissao_acesso_operacao")) })
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Operacao> operacoes = new HashSet<>();
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public Situacao getSituacao() {
-		return situacao;
-	}
-
-	public void setSituacao(Situacao situacao) {
-		this.situacao = situacao;
-	}
-
-	public Usuario getUsuario() {
-		return usuario;
-	}
-
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
-	}
-
-	public GrupoAcesso getGrupoAcesso() {
-		return grupoAcesso;
-	}
-
-	public void setGrupoAcesso(GrupoAcesso grupoAcesso) {
-		this.grupoAcesso = grupoAcesso;
-	}
-	
 }

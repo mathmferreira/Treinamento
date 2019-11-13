@@ -26,7 +26,7 @@ public class UsuarioService {
 	}
 	
 	public void deletarUsuarios(List<Long> ids) {
-		ids.parallelStream().filter(this.repositorio::existsById).forEach(this.repositorio::deleteById);
+		ids.stream().filter(this.repositorio::existsById).forEach(this.repositorio::deleteById);
 	}
 	
 	public Usuario findOne(Long id) {

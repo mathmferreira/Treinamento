@@ -35,7 +35,7 @@ public class TreinamentoApplicationTests {
 	
 	@Test
 	public void createUsuario() throws JsonProcessingException {
-		Usuario usuario = new Usuario();
+		Usuario usuario = Usuario.builder().build();
 		usuario.setLogin("matheus");
 		usuario.setSenha("mthm123");
 		usuario.setEmail("mathmferreira@hotmail.com");

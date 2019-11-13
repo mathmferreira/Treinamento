@@ -17,11 +17,15 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-@Entity
-@Table(name = "TB_MENU")
-public class Menu implements Serializable {
+import lombok.Builder;
+import lombok.Data;
 
-	private static final long serialVersionUID = 1L;
+@Entity
+@Data
+@Builder
+@Table(name = "TB_MENU")
+@SuppressWarnings("serial")
+public class Menu implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "menu_sequence")
@@ -52,60 +56,4 @@ public class Menu implements Serializable {
 	@OneToOne(fetch = FetchType.LAZY)
 	private Menu menuPai;
 
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getDescricao() {
-		return descricao;
-	}
-
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
-	}
-
-	public String getUrl() {
-		return url;
-	}
-
-	public void setUrl(String url) {
-		this.url = url;
-	}
-
-	public String getIcone() {
-		return icone;
-	}
-
-	public void setIcone(String icone) {
-		this.icone = icone;
-	}
-
-	public String getIndice() {
-		return indice;
-	}
-
-	public void setIndice(String indice) {
-		this.indice = indice;
-	}
-
-	public PermissaoAcesso getPermissaoAcesso() {
-		return permissaoAcesso;
-	}
-
-	public void setPermissaoAcesso(PermissaoAcesso permissaoAcesso) {
-		this.permissaoAcesso = permissaoAcesso;
-	}
-
-	public Menu getMenuPai() {
-		return menuPai;
-	}
-
-	public void setMenuPai(Menu menuPai) {
-		this.menuPai = menuPai;
-	}
-	
 }

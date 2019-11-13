@@ -20,12 +20,16 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import lombok.Builder;
+import lombok.Data;
+
 @Entity
+@Data
+@Builder
 @Table(name = "TB_SERVICO")
+@SuppressWarnings("serial")
 public class Servico implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	@SequenceGenerator(name = "servico_sequence", sequenceName = "servico_id_sequence", allocationSize = 1)
@@ -42,34 +46,11 @@ public class Servico implements Serializable {
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Solicitante solicitante;
 	
+	@Builder.Default
 	@JoinTable(name = "TB_SERVICO_OPERACAO", joinColumns = {
 	@JoinColumn(name = "ID_SERVICO", foreignKey = @ForeignKey(name = "fk_servico_operacao_servico"))}, inverseJoinColumns = {
 	@JoinColumn(name = "ID_OPERACAO", foreignKey = @ForeignKey(name = "fk_servico_operacao_operacao"))})
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Operacao> operacoes = new HashSet<>();
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public Endereco getEndereco() {
-		return endereco;
-	}
-
-	public void setEndereco(Endereco endereco) {
-		this.endereco = endereco;
-	}
-
-	public Solicitante getSolicitante() {
-		return solicitante;
-	}
-
-	public void setSolicitante(Solicitante solicitante) {
-		this.solicitante = solicitante;
-	}
 
 }
