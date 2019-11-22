@@ -23,7 +23,9 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import br.com.treinamento.ultracar.Treinamento.entidades.enumeradores.TipoLocal;
 import lombok.AccessLevel;
@@ -60,6 +62,7 @@ public class Endereco implements Serializable {
 	private String logradouro;
 	
 	@Builder.Default
+	@JsonManagedReference
 	@JoinTable(name = "TB_ENDERECO_BAIRRO", joinColumns = {
 	@JoinColumn(name = "ID_ENDERECO", foreignKey = @ForeignKey(name = "fk_endereco_endereco_bairro")) }, inverseJoinColumns = {
 	@JoinColumn(name = "ID_BAIRRO", foreignKey = @ForeignKey(name = "fk_bairro_endereco_bairro")) })
@@ -67,10 +70,12 @@ public class Endereco implements Serializable {
 	private Set<Bairro> bairros = new HashSet<>();
 	
 	@Builder.Default
+	@JsonBackReference
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "endereco")
 	private Set<Complemento> complementos = new HashSet<>();
 	
 	@Builder.Default
+	@JsonBackReference
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "endereco")
 	private Set<Cep> ceps = new HashSet<>();
 

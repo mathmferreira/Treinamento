@@ -14,6 +14,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -40,6 +41,7 @@ public class Cep implements Serializable {
 	@Column(name = "NM_NUMERO", nullable = false)
 	private Integer numero;
 	
+	@JsonManagedReference
 	@JoinColumn(name = "ID_ENDERECO")
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Endereco endereco;

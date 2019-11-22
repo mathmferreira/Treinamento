@@ -21,6 +21,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AccessLevel;
@@ -56,6 +57,7 @@ public class Bairro implements Serializable {
 	private Cidade cidade;
 	
 	@Builder.Default
+	@JsonBackReference
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "bairros")
 	private Set<Endereco> enderecos = new HashSet<>();
 

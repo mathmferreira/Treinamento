@@ -14,6 +14,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -43,6 +44,7 @@ public class Complemento implements Serializable {
 	@Column(name = "DS_DESCRICAO", length = 255)
 	private String descricao;
 	
+	@JsonManagedReference
 	@JoinColumn(name = "ID_ENDERECO", nullable = false)
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Endereco endereco;

@@ -23,4 +23,7 @@ public class EnderecoService {
 		return this.repositorio.save(endereco);
 	}
 	
+	public Endereco findByLogradouro(String logradouro) {
+		return null;
+	}
 }
