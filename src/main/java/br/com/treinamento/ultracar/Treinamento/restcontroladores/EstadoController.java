@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.treinamento.ultracar.Treinamento.entidades.Estado;
+import br.com.treinamento.ultracar.Treinamento.entidades.dto.EstadoDTO;
 import br.com.treinamento.ultracar.Treinamento.servicos.EstadoService;
 
 @RestController
@@ -21,8 +22,8 @@ public class EstadoController {
 	private EstadoService service;
 	
 	@PostMapping(value = "/create", produces = MediaType.APPLICATION_JSON)
-	public ResponseEntity<Estado> save(@RequestBody Estado estado) {
-		return new ResponseEntity<>(this.service.salvarEstado(estado), HttpStatus.CREATED);
+	public ResponseEntity<Estado> save(@RequestBody EstadoDTO estadoDTO) {
+		return new ResponseEntity<>(this.service.salvarEstado(estadoDTO), HttpStatus.CREATED);
 	}
 	
 }

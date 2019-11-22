@@ -1,11 +1,10 @@
 package br.com.treinamento.ultracar.Treinamento.entidades.dto;
 
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.Set;
 
-import br.com.treinamento.ultracar.Treinamento.entidades.Cidade;
-import br.com.treinamento.ultracar.Treinamento.entidades.Endereco;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import lombok.Builder;
 import lombok.Data;
 
@@ -18,9 +17,9 @@ public class BairroDTO implements Serializable {
 	
 	private String nome;
 	
-	private Cidade cidade;
+	private CidadeDTO cidade;
 	
-	@Builder.Default
-	private Set<Endereco> enderecos = new HashSet<>();
+	@JsonBackReference
+	private Set<EnderecoDTO> enderecos;
 	
 }

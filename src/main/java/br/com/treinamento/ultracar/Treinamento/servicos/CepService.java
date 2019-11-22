@@ -27,4 +27,8 @@ public class CepService {
 		return this.repositorio.getOne(id);
 	}
 	
+	public Cep findByNumero(Integer numero) {
+		return this.repositorio.findByNumero(numero);
+	}
+	
 }

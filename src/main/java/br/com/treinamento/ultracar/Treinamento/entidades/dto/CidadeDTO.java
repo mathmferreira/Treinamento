@@ -8,10 +8,10 @@ import lombok.Data;
 @Data
 @Builder
 @SuppressWarnings("serial")
-public class CepDTO implements Serializable {
+public class CidadeDTO implements Serializable {
 
 	private Long id;
-	private Integer numero;
-	private EnderecoDTO enderecoDTO;
-	
+	private String nome;
+	private EstadoDTO estado;
+
 }

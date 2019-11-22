@@ -23,15 +23,25 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import br.com.treinamento.ultracar.Treinamento.entidades.enumeradores.TipoLocal;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
 @Builder
 @Table(name = "TB_ENDERECO")
 @SuppressWarnings("serial")
+@NoArgsConstructor(access = AccessLevel.PACKAGE)
+@AllArgsConstructor(access = AccessLevel.PACKAGE) 
+@EqualsAndHashCode(exclude={"bairros", "complementos", "ceps"})
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Endereco implements Serializable {
 
 	@Id
@@ -41,34 +51,24 @@ public class Endereco implements Serializable {
 	private Long id;
 	
 	@NotNull
-	@Column(name = "EN_TIPO_LOCAL", length = 15, nullable = false)
 	@Enumerated(EnumType.STRING)
+	@Column(name = "EN_TIPO_LOCAL", length = 15, nullable = false)
 	private TipoLocal tipoLocal;
 	
-	@Column(name = "DS_LOGRADOURO", length = 128, nullable = false)
 	@Size(min = 5, max = 128)
+	@Column(name = "DS_LOGRADOURO", length = 128, nullable = false)
 	private String logradouro;
-
-	@Builder.Default
-	@JoinTable(name = "TB_ENDERECO_NUMERO", joinColumns = {
-	@JoinColumn(name = "ID_ENDERECO", nullable = false, foreignKey = @ForeignKey(name = "fk_endereco_endereco_numero")) }, inverseJoinColumns = {
-	@JoinColumn(name = "ID_NUMERO", nullable = false, foreignKey = @ForeignKey(name = "fk_numero_endereco_numero")) })
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	private Set<Numero> numeros = new HashSet<>();
-
-	@Builder.Default
-	@JoinTable(name = "TB_ENDERECO_COMPLEMENTO", joinColumns = {
-	@JoinColumn(name = "ID_ENDERECO") }, inverseJoinColumns = {
-	@JoinColumn(name = "ID_COMPLEMENTO") })
-	@ManyToMany(fetch = FetchType.LAZY)
-	private Set<Complemento> complementos = new HashSet<>();
 	
 	@Builder.Default
 	@JoinTable(name = "TB_ENDERECO_BAIRRO", joinColumns = {
 	@JoinColumn(name = "ID_ENDERECO", foreignKey = @ForeignKey(name = "fk_endereco_endereco_bairro")) }, inverseJoinColumns = {
-	@JoinColumn(name = "ID_BAIRROID_ENDERECO", foreignKey = @ForeignKey(name = "fk_bairro_endereco_bairro")) })
-	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinColumn(name = "ID_BAIRRO", foreignKey = @ForeignKey(name = "fk_bairro_endereco_bairro")) })
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Bairro> bairros = new HashSet<>();
+	
+	@Builder.Default
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "endereco")
+	private Set<Complemento> complementos = new HashSet<>();
 	
 	@Builder.Default
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "endereco")
