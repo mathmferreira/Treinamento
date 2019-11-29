@@ -1,5 +1,9 @@
 package br.com.treinamento.ultracar.Treinamento.servicos;
 
+import java.util.Arrays;
+import java.util.HashSet;
+
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
@@ -9,9 +13,14 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
+import br.com.treinamento.ultracar.Treinamento.entidades.Bairro;
 import br.com.treinamento.ultracar.Treinamento.entidades.Cep;
+import br.com.treinamento.ultracar.Treinamento.entidades.Cidade;
+import br.com.treinamento.ultracar.Treinamento.entidades.Endereco;
+import br.com.treinamento.ultracar.Treinamento.entidades.Estado;
 import br.com.treinamento.ultracar.Treinamento.entidades.dto.CepDTO;
 import br.com.treinamento.ultracar.Treinamento.entidades.dto.ExternalCepDTO;
+import br.com.treinamento.ultracar.Treinamento.entidades.enumeradores.TipoLocal;
 import br.com.treinamento.ultracar.Treinamento.repositorios.CepRepository;
 
 @Service
@@ -23,6 +32,15 @@ public class CepService {
 	
 	@Autowired
 	private EnderecoService enderecoService;
+	
+	@Autowired
+	private EstadoService estadoService;
+	
+	@Autowired
+	private CidadeService cidadeService;
+	
+	@Autowired
+	private BairroService bairroService;
 	
 	@Autowired
 	private RestTemplate restTemplate;
@@ -47,16 +65,25 @@ public class CepService {
 		String url = "http://cep.republicavirtual.com.br/web_cep.php?cep=" + numero + "&formato=jsonp";
 		ExternalCepDTO dto = this.restTemplate.getForObject(url, ExternalCepDTO.class);
 		
-		/*Example<Endereco> filtro = Example.of(Endereco.builder().logradouro(dto.getLogradouro()).build(),
-				ExampleMatcher.matchingAny().withIgnoreCase());
-		Optional<Endereco> match = this.enderecoService.findOne(filtro);
+		Cep cep = Cep.builder().numero(numero).build();
 		
-		Endereco endereco = match.isPresent() ? match.get() : Endereco.builder().build();
+		Estado estado = Estado.builder().sigla(StringUtils.upperCase(dto.getUf())).build();
+		estado = this.estadoService.checkAndSave(estado);
 		
-		Cep cep = Cep.builder()
-				.numero(numero)
-				.build();*/
-		return null;
+		Cidade cidade = Cidade.builder().nome(StringUtils.upperCase(dto.getCidade())).estado(estado).build();
+		cidade = this.cidadeService.checkAndSave(cidade);
+		
+		Bairro bairro = Bairro.builder().nome(StringUtils.upperCase(dto.getBairro())).cidade(cidade).build();
+		bairro = this.bairroService.checkAndSave(bairro);
+		
+		Endereco endereco = Endereco.builder().logradouro(StringUtils.upperCase(dto.getLogradouro()))
+				.tipoLocal(TipoLocal.valueOf(StringUtils.upperCase(dto.getTipoLogradouro())))
+				.bairros(new HashSet<>(Arrays.asList(bairro))).build();
+		endereco = this.enderecoService.checkAndSave(endereco);
+		
+		cep.setEndereco(endereco);
+		cep = this.repositorio.save(cep);
+		return this.repositorio.findByNumero(cep.getNumero());
 	}
 	
 }

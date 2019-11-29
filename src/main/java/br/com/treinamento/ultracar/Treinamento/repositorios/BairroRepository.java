@@ -1,6 +1,6 @@
 package br.com.treinamento.ultracar.Treinamento.repositorios;
 
-import java.util.List;
+import java.util.Set;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -16,6 +16,12 @@ public interface BairroRepository extends JpaRepository<Bairro, Long> {
 	public Bairro findByNome(String nome);
 	
 	@Query("Select b From Bairro b Where b.cidade = ?1")
-	public List<Bairro> findByCidade(Cidade cidade);
+	public Set<Bairro> findByCidade(Cidade cidade);
+	
+	@Query("Select b From Bairro "
+		 + "Inner Join b.cidade c "
+		 + "Where b.nome =: nome "
+		 + "And c.id = :idCidade")
+	public Bairro findByNomeCidade(String nome, Long idCidade);
 	
 }

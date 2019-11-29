@@ -12,10 +12,15 @@ import br.com.treinamento.ultracar.Treinamento.entidades.Estado;
 @Repository
 public interface CidadeRepository extends JpaRepository<Cidade, Long> {
 
-	@Query("Select c From Cidade c Where c.nome Like %?1%")
+	@Query("Select c From Cidade c Where Lower(c.nome) Like Lower(concat('%', concat(?1, '%')))")
 	public List<Cidade> findByNome(String nome);
 	
 	@Query("Select c From Cidade c Where c.estado = :estado")
 	public List<Cidade> findByEstado(Estado estado);
+	
+	@Query("Select c From Cidade "
+		 + "Inner Join c.estado e "
+		 + "Where e.id = :idEstado")
+	public Cidade findByNomeEstado(String nome, Long idEstado);
 	
 }
