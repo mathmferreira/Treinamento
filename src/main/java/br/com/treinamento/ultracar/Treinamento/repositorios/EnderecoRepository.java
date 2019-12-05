@@ -4,6 +4,7 @@ import java.util.Set;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Repository;
 
 import br.com.treinamento.ultracar.Treinamento.entidades.Endereco;
@@ -21,6 +22,7 @@ public interface EnderecoRepository extends JpaRepository<Endereco, Long> {
 		 + "And Lower(uf.sigla) Like Lower(concat('%', concat(:siglaUF, '%')))")
 	public Endereco findByLogradouroBairroCidadeEstado(String logradouro, String nomeBairro, String nomeCidade, String siglaUF);
 
+	@Nullable
 	@Query("Select e From Endereco e "
 		 + "Inner Join Fetch e.bairros b "
 		 + "Inner Join Fetch b.cidade c "

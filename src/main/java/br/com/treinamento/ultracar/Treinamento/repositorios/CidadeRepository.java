@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Repository;
 
 import br.com.treinamento.ultracar.Treinamento.entidades.Cidade;
@@ -17,10 +18,12 @@ public interface CidadeRepository extends JpaRepository<Cidade, Long> {
 	
 	@Query("Select c From Cidade c Where c.estado = :estado")
 	public List<Cidade> findByEstado(Estado estado);
-	
-	@Query("Select c From Cidade "
+
+	@Nullable
+	@Query("Select c From Cidade c "
 		 + "Inner Join c.estado e "
-		 + "Where e.id = :idEstado")
+		 + "Where e.id = :idEstado "
+		 + "And c.nome = :nome")
 	public Cidade findByNomeEstado(String nome, Long idEstado);
 	
 }
