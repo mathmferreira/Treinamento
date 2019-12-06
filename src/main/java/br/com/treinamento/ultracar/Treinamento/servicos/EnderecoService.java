@@ -22,7 +22,7 @@ public class EnderecoService {
 	private EnderecoRepository repositorio;
 	
 	public Endereco checkAndSave(Endereco endereco) {
-		Example<Endereco> filtro = Example.of(endereco, ExampleMatcher.matchingAny().withIgnoreCase());
+		Example<Endereco> filtro = Example.of(endereco, ExampleMatcher.matchingAll().withIgnoreCase());
 		if (this.repositorio.exists(filtro)) {
 			return this.repositorio.findAll(filtro).stream().findFirst().orElse(null);
 		} else {

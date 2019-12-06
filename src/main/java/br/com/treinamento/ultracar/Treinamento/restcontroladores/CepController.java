@@ -1,5 +1,7 @@
 package br.com.treinamento.ultracar.Treinamento.restcontroladores;
 
+import java.util.Objects;
+
 import javax.ws.rs.core.MediaType;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,9 +30,14 @@ public class CepController {
 		return new ResponseEntity<>(this.service.salvarCep(cepDTO), HttpStatus.CREATED);
 	}
 	
-	@GetMapping(value = "/{cep}", produces = MediaType.APPLICATION_JSON)
-	public ResponseEntity<Cep> search(@PathVariable Integer cep) {
-		return new ResponseEntity<>(this.service.findByNumero(cep), HttpStatus.OK);
+	@GetMapping(value = "/{numero}", produces = MediaType.APPLICATION_JSON)
+	public ResponseEntity<Cep> search(@PathVariable Integer numero) {
+		if (numero > 99999999 && numero < 10000000) {
+			return ResponseEntity.badRequest().build();
+		}
+		
+		Cep cep = this.service.findByNumero(numero);
+		return Objects.nonNull(cep) ? ResponseEntity.ok(cep) : ResponseEntity.notFound().build();
 	}
 	
 }

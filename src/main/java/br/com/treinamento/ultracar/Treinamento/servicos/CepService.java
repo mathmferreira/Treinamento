@@ -65,7 +65,9 @@ public class CepService {
 		String url = "http://cep.republicavirtual.com.br/web_cep.php?cep=" + numero + "&formato=jsonp";
 		ExternalCepDTO dto = this.restTemplate.getForObject(url, ExternalCepDTO.class);
 		
-		Cep cep = Cep.builder().numero(numero).build();
+		if (StringUtils.isBlank(dto.getLogradouro())) {
+			return null;
+		}
 		
 		Estado estado = Estado.builder().sigla(StringUtils.upperCase(dto.getUf())).build();
 		estado = this.estadoService.checkAndSave(estado);
@@ -81,7 +83,7 @@ public class CepService {
 				.bairros(new HashSet<>(Arrays.asList(bairro))).build();
 		endereco = this.enderecoService.checkAndSave(endereco);
 		
-		cep.setEndereco(endereco);
+		Cep cep = Cep.builder().numero(numero).endereco(endereco).build();
 		cep = this.repositorio.save(cep);
 		return this.repositorio.findByNumero(cep.getNumero());
 	}

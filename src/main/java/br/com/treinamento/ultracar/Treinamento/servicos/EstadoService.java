@@ -21,7 +21,7 @@ public class EstadoService {
 	private EstadoRepository repositorio;
 	
 	public Estado checkAndSave(Estado estado) {
-		if (this.repositorio.exists(Example.of(estado, ExampleMatcher.matchingAny().withIgnoreCase()))) {
+		if (this.repositorio.exists(Example.of(estado, ExampleMatcher.matchingAll().withIgnoreCase()))) {
 			return this.repositorio.findBySigla(estado.getSigla());
 		} else {
 			return this.repositorio.save(estado);

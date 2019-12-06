@@ -23,7 +23,7 @@ public class BairroService {
 	private BairroRepository repositorio;
 	
 	public Bairro checkAndSave(Bairro bairro) {
-		if (this.repositorio.exists(Example.of(bairro, ExampleMatcher.matchingAny().withIgnoreCase()))) {
+		if (this.repositorio.exists(Example.of(bairro, ExampleMatcher.matchingAll().withIgnoreCase()))) {
 			return this.repositorio.findByNomeCidade(bairro.getNome(), bairro.getCidade().getId());
 		} else {
 			return this.repositorio.save(bairro);

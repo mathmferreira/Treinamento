@@ -1,7 +1,6 @@
 package br.com.treinamento.ultracar.Treinamento;
 
-import java.util.Random;
-
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,10 +25,39 @@ public class CepRestTests {
 	}
 	
 	@Test
-	public void testSearchMethod() {
-		String cep = String.valueOf(new Random().nextInt((99999999)));
+	public void testSearchUnknown() {
+		Integer cep = 10000000;
+		RestAssured.given().contentType(ContentType.JSON).get("/api/cep/{cep}", cep).then().statusCode(404);
+	}
+	
+	@Test
+	public void testSearchBlank() {
+		String cep = StringUtils.EMPTY;
+		RestAssured.given().contentType(ContentType.JSON).get("/api/cep/{cep}", cep).then().statusCode(404);
+	}
+	
+	@Test
+	public void testSearchInvalid() {
+		Integer cep = 1654654645;
+		RestAssured.given().contentType(ContentType.JSON).get("/api/cep/{cep}", cep).then().statusCode(404);
+	}
+	
+	@Test
+	public void testSearchString() {
+		String cep = "josias";
+		RestAssured.given().contentType(ContentType.JSON).get("/api/cep/{cep}", cep).then().statusCode(400);
+	}
+	
+	@Test
+	public void testSearchValid() {
+		Integer cep = 30130002;
 		RestAssured.given().contentType(ContentType.JSON).get("/api/cep/{cep}", cep).then().statusCode(200);
-		System.out.println("Finalizado: " + cep);
+	}
+	
+	@Test
+	public void testSearchValidCreate() {
+		Integer cep = 31540530;
+		RestAssured.given().contentType(ContentType.JSON).get("/api/cep/{cep}", cep).then().statusCode(200);
 	}
 
 }

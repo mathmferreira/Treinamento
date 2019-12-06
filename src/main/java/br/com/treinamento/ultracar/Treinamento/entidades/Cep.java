@@ -42,7 +42,7 @@ public class Cep implements Serializable {
 	private Integer numero;
 	
 	@JsonManagedReference
-	@JoinColumn(name = "ID_ENDERECO")
+	@JoinColumn(name = "ID_ENDERECO", nullable = false)
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Endereco endereco;
 	

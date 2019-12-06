@@ -18,7 +18,7 @@ public class CidadeService {
 	private CidadeRepository repositorio;
 	
 	public Cidade checkAndSave(Cidade cidade) {
-		if (this.repositorio.exists(Example.of(cidade, ExampleMatcher.matchingAny().withIgnoreCase()))) {
+		if (this.repositorio.exists(Example.of(cidade, ExampleMatcher.matchingAll().withIgnoreCase()))) {
 			return this.repositorio.findByNomeEstado(cidade.getNome(), cidade.getEstado().getId());
 		} else {
 			return this.repositorio.save(cidade);
