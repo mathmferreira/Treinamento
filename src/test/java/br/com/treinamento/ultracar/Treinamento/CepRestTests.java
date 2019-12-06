@@ -55,7 +55,7 @@ public class CepRestTests {
 	}
 	
 	@Test
-	public void testSearchValidCreate() {
+	public void testSearchValidApiCreate() {
 		Integer cep = 31540530;
 		RestAssured.given().contentType(ContentType.JSON).get("/api/cep/{cep}", cep).then().statusCode(200);
 	}
